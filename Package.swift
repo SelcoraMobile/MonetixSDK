@@ -1,0 +1,34 @@
+// swift-tools-version: 5.9
+// The swift-tools-version declares the minimum version of Swift required to build this package.
+
+import PackageDescription
+
+let package = Package(
+    name: "MonetixSDK",
+    platforms: [
+        .iOS(.v15),
+        .macOS(.v12)
+    ],
+    products: [
+        .library(
+            name: "MonetixSDK",
+            targets: ["MonetixSDK"]
+        ),
+    ],
+    dependencies: [],
+    targets: [
+        .target(
+            name: "MonetixSDK",
+            dependencies: [],
+            path: "Sources/MonetixSDK",
+            swiftSettings: [
+                .define("SPM_BUILD")
+            ]
+        ),
+        .testTarget(
+            name: "MonetixSDKTests",
+            dependencies: ["MonetixSDK"],
+            path: "Tests/MonetixSDKTests"
+        ),
+    ]
+)
