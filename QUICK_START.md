@@ -15,7 +15,7 @@ https://github.com/your-org/MonetixSDK
 var baseURL: String {
     switch self {
     case .production:
-        return "https://YOUR-BACKEND-URL.com/api"  // 👈 BURAYA BACKEND URL'İNİZİ YAZIN
+        return "https://YOUR-BACKEND-URL.com/api"  // 👈 BURAYA BACKEND URL'İNİZİ YAZIN.
     case .sandbox:
         return "https://YOUR-SANDBOX-URL.com/api"
     }
