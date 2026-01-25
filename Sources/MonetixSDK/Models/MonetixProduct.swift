@@ -12,6 +12,9 @@ import StoreKit
 
 /// Represents a product (similar to AdaptyPaywallProduct)
 public struct MonetixProduct: Codable, Sendable {
+    /// Product ID
+    public let id: String
+
     /// Adapty product ID
     public let adaptyProductId: String
 
@@ -77,6 +80,7 @@ public struct MonetixProduct: Codable, Sendable {
     }
 
     enum CodingKeys: String, CodingKey {
+        case id
         case adaptyProductId = "adapty_product_id"
         case vendorProductId = "vendor_product_id"
         case localizedTitle = "localized_title"
@@ -103,6 +107,7 @@ public struct MonetixProduct: Codable, Sendable {
 
     /// Memberwise initializer for creating product directly
     public init(
+        id: String,
         adaptyProductId: String,
         vendorProductId: String,
         localizedTitle: String,
@@ -123,6 +128,7 @@ public struct MonetixProduct: Codable, Sendable {
         subscriptionGroupIdentifier: String? = nil,
         subscriptionOffer: MonetixSubscriptionOffer? = nil
     ) {
+        self.id = id
         self.adaptyProductId = adaptyProductId
         self.vendorProductId = vendorProductId
         self.localizedTitle = localizedTitle
@@ -146,6 +152,7 @@ public struct MonetixProduct: Codable, Sendable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(String.self, forKey: .id)
         adaptyProductId = try container.decodeIfPresent(String.self, forKey: .adaptyProductId) ?? ""
         vendorProductId = try container.decode(String.self, forKey: .vendorProductId)
         localizedTitle = try container.decodeIfPresent(String.self, forKey: .localizedTitle) ?? ""
@@ -169,6 +176,7 @@ public struct MonetixProduct: Codable, Sendable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
         try container.encode(adaptyProductId, forKey: .adaptyProductId)
         try container.encode(vendorProductId, forKey: .vendorProductId)
         try container.encode(localizedTitle, forKey: .localizedTitle)

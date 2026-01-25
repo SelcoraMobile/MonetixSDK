@@ -386,6 +386,7 @@ public class Monetix {
 
         // Create product directly without JSON serialization for safety
         var product = MonetixProduct(
+            id: skProduct.id,
             adaptyProductId: skProduct.id,
             vendorProductId: skProduct.id,
             localizedTitle: skProduct.displayName,
