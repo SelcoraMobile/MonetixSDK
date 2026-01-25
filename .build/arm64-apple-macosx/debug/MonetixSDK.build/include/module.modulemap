@@ -1,3 +1,0 @@
-module MonetixSDK {
-    header "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/include/MonetixSDK-Swift.h"
-}
