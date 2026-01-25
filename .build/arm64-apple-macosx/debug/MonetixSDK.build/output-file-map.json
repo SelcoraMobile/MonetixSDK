@@ -1,0 +1,96 @@
+{
+  "": {
+    "swift-dependencies": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/master.swiftdeps"
+  },
+  "/private/tmp/MonetixSDK-check/Sources/MonetixSDK/Core/Monetix.swift": {
+    "dependencies": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/Monetix.d",
+    "object": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/Monetix.swift.o",
+    "swiftmodule": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/Monetix~partial.swiftmodule",
+    "swift-dependencies": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/Monetix.swiftdeps",
+    "diagnostics": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/Monetix.dia"
+  },
+  "/private/tmp/MonetixSDK-check/Sources/MonetixSDK/Core/MonetixConfiguration.swift": {
+    "dependencies": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixConfiguration.d",
+    "object": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixConfiguration.swift.o",
+    "swiftmodule": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixConfiguration~partial.swiftmodule",
+    "swift-dependencies": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixConfiguration.swiftdeps",
+    "diagnostics": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixConfiguration.dia"
+  },
+  "/private/tmp/MonetixSDK-check/Sources/MonetixSDK/Core/MonetixDelegate.swift": {
+    "dependencies": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixDelegate.d",
+    "object": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixDelegate.swift.o",
+    "swiftmodule": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixDelegate~partial.swiftmodule",
+    "swift-dependencies": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixDelegate.swiftdeps",
+    "diagnostics": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixDelegate.dia"
+  },
+  "/private/tmp/MonetixSDK-check/Sources/MonetixSDK/Managers/PurchaseManager.swift": {
+    "dependencies": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/PurchaseManager.d",
+    "object": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/PurchaseManager.swift.o",
+    "swiftmodule": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/PurchaseManager~partial.swiftmodule",
+    "swift-dependencies": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/PurchaseManager.swiftdeps",
+    "diagnostics": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/PurchaseManager.dia"
+  },
+  "/private/tmp/MonetixSDK-check/Sources/MonetixSDK/Managers/UserManager.swift": {
+    "dependencies": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/UserManager.d",
+    "object": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/UserManager.swift.o",
+    "swiftmodule": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/UserManager~partial.swiftmodule",
+    "swift-dependencies": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/UserManager.swiftdeps",
+    "diagnostics": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/UserManager.dia"
+  },
+  "/private/tmp/MonetixSDK-check/Sources/MonetixSDK/Models/MonetixError.swift": {
+    "dependencies": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixError.d",
+    "object": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixError.swift.o",
+    "swiftmodule": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixError~partial.swiftmodule",
+    "swift-dependencies": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixError.swiftdeps",
+    "diagnostics": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixError.dia"
+  },
+  "/private/tmp/MonetixSDK-check/Sources/MonetixSDK/Models/MonetixPaywall.swift": {
+    "dependencies": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixPaywall.d",
+    "object": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixPaywall.swift.o",
+    "swiftmodule": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixPaywall~partial.swiftmodule",
+    "swift-dependencies": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixPaywall.swiftdeps",
+    "diagnostics": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixPaywall.dia"
+  },
+  "/private/tmp/MonetixSDK-check/Sources/MonetixSDK/Models/MonetixProduct.swift": {
+    "dependencies": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixProduct.d",
+    "object": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixProduct.swift.o",
+    "swiftmodule": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixProduct~partial.swiftmodule",
+    "swift-dependencies": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixProduct.swiftdeps",
+    "diagnostics": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixProduct.dia"
+  },
+  "/private/tmp/MonetixSDK-check/Sources/MonetixSDK/Models/MonetixUser.swift": {
+    "dependencies": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixUser.d",
+    "object": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixUser.swift.o",
+    "swiftmodule": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixUser~partial.swiftmodule",
+    "swift-dependencies": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixUser.swiftdeps",
+    "diagnostics": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixUser.dia"
+  },
+  "/private/tmp/MonetixSDK-check/Sources/MonetixSDK/MonetixSDK.swift": {
+    "dependencies": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixSDK.d",
+    "object": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixSDK.swift.o",
+    "swiftmodule": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixSDK~partial.swiftmodule",
+    "swift-dependencies": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixSDK.swiftdeps",
+    "diagnostics": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixSDK.dia"
+  },
+  "/private/tmp/MonetixSDK-check/Sources/MonetixSDK/Services/APIService.swift": {
+    "dependencies": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/APIService.d",
+    "object": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/APIService.swift.o",
+    "swiftmodule": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/APIService~partial.swiftmodule",
+    "swift-dependencies": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/APIService.swiftdeps",
+    "diagnostics": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/APIService.dia"
+  },
+  "/private/tmp/MonetixSDK-check/Sources/MonetixSDK/Services/AnalyticsService.swift": {
+    "dependencies": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/AnalyticsService.d",
+    "object": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/AnalyticsService.swift.o",
+    "swiftmodule": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/AnalyticsService~partial.swiftmodule",
+    "swift-dependencies": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/AnalyticsService.swiftdeps",
+    "diagnostics": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/AnalyticsService.dia"
+  },
+  "/private/tmp/MonetixSDK-check/Sources/MonetixSDK/UI/MonetixPaywallController.swift": {
+    "dependencies": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixPaywallController.d",
+    "object": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixPaywallController.swift.o",
+    "swiftmodule": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixPaywallController~partial.swiftmodule",
+    "swift-dependencies": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixPaywallController.swiftdeps",
+    "diagnostics": "/private/tmp/MonetixSDK-check/.build/arm64-apple-macosx/debug/MonetixSDK.build/MonetixPaywallController.dia"
+  }
+}

@@ -1,0 +1,13 @@
+/private/tmp/MonetixSDK-check/Sources/MonetixSDK/Core/Monetix.swift
+/private/tmp/MonetixSDK-check/Sources/MonetixSDK/Core/MonetixConfiguration.swift
+/private/tmp/MonetixSDK-check/Sources/MonetixSDK/Core/MonetixDelegate.swift
+/private/tmp/MonetixSDK-check/Sources/MonetixSDK/Managers/PurchaseManager.swift
+/private/tmp/MonetixSDK-check/Sources/MonetixSDK/Managers/UserManager.swift
+/private/tmp/MonetixSDK-check/Sources/MonetixSDK/Models/MonetixError.swift
+/private/tmp/MonetixSDK-check/Sources/MonetixSDK/Models/MonetixPaywall.swift
+/private/tmp/MonetixSDK-check/Sources/MonetixSDK/Models/MonetixProduct.swift
+/private/tmp/MonetixSDK-check/Sources/MonetixSDK/Models/MonetixUser.swift
+/private/tmp/MonetixSDK-check/Sources/MonetixSDK/MonetixSDK.swift
+/private/tmp/MonetixSDK-check/Sources/MonetixSDK/Services/APIService.swift
+/private/tmp/MonetixSDK-check/Sources/MonetixSDK/Services/AnalyticsService.swift
+/private/tmp/MonetixSDK-check/Sources/MonetixSDK/UI/MonetixPaywallController.swift

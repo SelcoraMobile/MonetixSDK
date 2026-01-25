@@ -341,7 +341,7 @@ public enum MonetixAttributionSource: String, Sendable {
 }
 
 /// Attribution data
-public struct MonetixAttributionData: Sendable {
+public struct MonetixAttributionData: @unchecked Sendable {
     public let source: MonetixAttributionSource
     public let attribution: [String: Any]
     public let networkUserId: String?

@@ -413,7 +413,7 @@ public struct MonetixProfileParameters {
 
 // MARK: - AnyCodable Value (for custom attributes)
 
-public struct AnyCodableValue: Codable, Sendable {
+public struct AnyCodableValue: Codable, @unchecked Sendable {
     public let value: Any
 
     public init(_ value: Any) {

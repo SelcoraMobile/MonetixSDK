@@ -20,11 +20,7 @@ let package = Package(
         .target(
             name: "MonetixSDK",
             dependencies: [],
-            path: "Sources/MonetixSDK",
-            swiftSettings: [
-                .define("SPM_BUILD"),
-                .enableExperimentalFeature("StrictConcurrency=minimal")
-            ]
+            path: "Sources/MonetixSDK"
         ),
     ]
 )
