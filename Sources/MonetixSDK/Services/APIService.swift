@@ -321,7 +321,7 @@ internal class APIService {
             throw MonetixError.notActivated
         }
 
-        let urlString = config.environment.baseURL + "/api" + endpoint
+        let urlString = config.environment.baseURL + endpoint
         guard let url = URL(string: urlString) else {
             throw MonetixError.invalidConfiguration
         }
