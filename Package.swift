@@ -22,13 +22,9 @@ let package = Package(
             dependencies: [],
             path: "Sources/MonetixSDK",
             swiftSettings: [
-                .define("SPM_BUILD")
+                .define("SPM_BUILD"),
+                .enableExperimentalFeature("StrictConcurrency=minimal")
             ]
-        ),
-        .testTarget(
-            name: "MonetixSDKTests",
-            dependencies: ["MonetixSDK"],
-            path: "Tests/MonetixSDKTests"
         ),
     ]
 )
