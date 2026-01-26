@@ -488,100 +488,90 @@ struct AccessCheckResponse: Codable {
     }
 }
 
+/// Backend'den dönen paywall response yapısı
 struct PaywallResponse: Codable {
     let paywall: PaywallData
-    let abTest: ABTestData?
-    let metadata: PaywallMetadata?
 
     struct PaywallData: Codable {
         let id: String
+        let placementId: String
+        let instanceIdentity: String
         let name: String
-        let config: [String: AnyCodableValue]?
+        let variationId: String?
+        let abTestName: String?
+        let revision: Int
+        let locale: String
+        let hasViewConfiguration: Bool
+        let vendorProductIds: [String]
         let products: [ProductData]
+        let remoteConfig: RemoteConfigData?
 
-        struct ProductData: Codable {
-            let id: String
-            let appleId: String
-            let name: String
-            let type: String
-            let price: Decimal?
-
-            enum CodingKeys: String, CodingKey {
-                case id
-                case appleId = "apple_id"
-                case name
-                case type
-                case price
-            }
+        enum CodingKeys: String, CodingKey {
+            case id
+            case placementId = "placement_id"
+            case instanceIdentity = "instance_identity"
+            case name
+            case variationId = "variation_id"
+            case abTestName = "ab_test_name"
+            case revision
+            case locale
+            case hasViewConfiguration = "has_view_configuration"
+            case vendorProductIds = "vendor_product_ids"
+            case products
+            case remoteConfig = "remote_config"
         }
     }
 
-    struct ABTestData: Codable {
-        let testId: String
-        let testName: String
-        let variantId: String
-        let variantName: String
-        let isControl: Bool
+    struct ProductData: Codable {
+        let id: String
+        let adaptyProductId: String
+        let vendorProductId: String
+        let introductoryOfferEligibility: Bool
+        let promotionalOfferId: String?
+        let basePlanId: String?
 
         enum CodingKeys: String, CodingKey {
-            case testId = "testId"
-            case testName
-            case variantId = "variant_id"
-            case variantName
-            case isControl = "is_control"
+            case id
+            case adaptyProductId = "adapty_product_id"
+            case vendorProductId = "vendor_product_id"
+            case introductoryOfferEligibility = "introductory_offer_eligibility"
+            case promotionalOfferId = "promotional_offer_id"
+            case basePlanId = "base_plan_id"
         }
     }
 
-    struct PaywallMetadata: Codable {
-        let timestamp: String
-        let placement: String
-        let userId: String
-
-        enum CodingKeys: String, CodingKey {
-            case timestamp
-            case placement
-            case userId = "user_id"
-        }
+    struct RemoteConfigData: Codable {
+        let locale: String
+        let data: [String: AnyCodableValue]
     }
 
     func toPaywall() -> MonetixPaywall {
-        let vendorProductIds = paywall.products.map { $0.appleId }
-
-        // Create remote config if available
+        // Convert remote config from backend format to SDK format
         var remoteConfig: MonetixRemoteConfig? = nil
-        if let config = paywall.config, !config.isEmpty {
-            // We'll create a simple remote config safely
-            if let jsonData = try? JSONSerialization.data(withJSONObject: config.mapValues { $0.value }, options: []),
-               let jsonString = String(data: jsonData, encoding: .utf8) {
-                // Escape the JSON string properly for embedding
-                let escapedJsonString = jsonString.replacingOccurrences(of: "\\", with: "\\\\")
-                    .replacingOccurrences(of: "\"", with: "\\\"")
-                let remoteConfigJson = """
-                {
-                    "locale": "en",
-                    "json_string": "\(escapedJsonString)",
-                    "data": {}
-                }
-                """
-                if let remoteConfigData = remoteConfigJson.data(using: .utf8) {
-                    remoteConfig = try? JSONDecoder().decode(MonetixRemoteConfig.self, from: remoteConfigData)
-                }
+        if let backendConfig = paywall.remoteConfig {
+            // Create remote config JSON and decode it
+            let configDict: [String: Any] = [
+                "locale": backendConfig.locale,
+                "data": backendConfig.data.mapValues { $0.value }
+            ]
+            if let jsonData = try? JSONSerialization.data(withJSONObject: configDict, options: []) {
+                remoteConfig = try? JSONDecoder().decode(MonetixRemoteConfig.self, from: jsonData)
             }
         }
 
-        // Create paywall directly using memberwise initializer instead of unsafe JSON
+        // Create paywall directly from backend response
         return MonetixPaywall(
             id: paywall.id,
-            placementId: metadata?.placement ?? "",
-            instanceIdentity: UUID().uuidString,
-            variationId: abTest?.variantId,
+            placementId: paywall.placementId,
+            instanceIdentity: paywall.instanceIdentity,
+            variationId: paywall.variationId,
             name: paywall.name,
-            abTestName: abTest?.testName,
-            revision: 1,
-            locale: "en",
-            hasViewConfiguration: false,
-            vendorProductIds: vendorProductIds,
-            products: [],
+            abTestName: paywall.abTestName,
+            revision: paywall.revision,
+            locale: paywall.locale,
+            hasViewConfiguration: paywall.hasViewConfiguration,
+            vendorProductIds: paywall.vendorProductIds,
+            products: [],  // Products will be fetched from StoreKit
             remoteConfig: remoteConfig
         )
     }
