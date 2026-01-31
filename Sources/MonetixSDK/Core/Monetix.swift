@@ -3,6 +3,7 @@
 //  MonetixSDK
 //
 //  Created by MonetixSDK
+//  Version 1.0.5
 //
 
 import Foundation
