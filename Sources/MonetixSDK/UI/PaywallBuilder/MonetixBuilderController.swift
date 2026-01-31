@@ -908,11 +908,4 @@ private class PaddedLabel: UILabel {
     }
 }
 
-// MARK: - MonetixPaywallControllerDelegate Extension
-
-@available(iOS 15.0, *)
-public extension MonetixPaywallControllerDelegate {
-    func paywallController(_ controller: Any, didPerformAction action: String) {}
-    func paywallController(_ controller: Any, didSelectProduct product: MonetixProduct) {}
-}
 #endif
