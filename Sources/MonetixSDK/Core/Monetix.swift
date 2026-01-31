@@ -107,13 +107,25 @@ public class Monetix {
         var attributes: [String: Any] = [:]
 
         // Country/Region from device locale
-        if let regionCode = Locale.current.region?.identifier {
-            attributes["country"] = regionCode
+        if #available(iOS 16, *) {
+            if let regionCode = Locale.current.region?.identifier {
+                attributes["country"] = regionCode
+            }
+        } else {
+            if let regionCode = Locale.current.regionCode {
+                attributes["country"] = regionCode
+            }
         }
 
         // Language
-        if let languageCode = Locale.current.language.languageCode?.identifier {
-            attributes["language"] = languageCode
+        if #available(iOS 16, *) {
+            if let languageCode = Locale.current.language.languageCode?.identifier {
+                attributes["language"] = languageCode
+            }
+        } else {
+            if let languageCode = Locale.current.languageCode {
+                attributes["language"] = languageCode
+            }
         }
 
         // Timezone
