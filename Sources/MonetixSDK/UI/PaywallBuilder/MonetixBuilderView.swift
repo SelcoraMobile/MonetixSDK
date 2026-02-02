@@ -294,8 +294,8 @@ public struct MonetixBuilderView: View {
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(.primary)
 
-                if showDescription, let desc = product.localizedDescription {
-                    Text(desc)
+                if showDescription && !product.localizedDescription.isEmpty {
+                    Text(product.localizedDescription)
                         .font(.system(size: 13))
                         .foregroundColor(.secondary)
                         .lineLimit(2)

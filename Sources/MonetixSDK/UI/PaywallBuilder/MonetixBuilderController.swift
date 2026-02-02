@@ -262,7 +262,7 @@ public class MonetixBuilderController: UIViewController {
         let button = UIButton(type: .system)
         button.setTitle(element.text, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.tag = element.hashValue
+        button.tag = element.id.hashValue
 
         // Store action info
         objc_setAssociatedObject(button, &AssociatedKeys.action, element.action, .OBJC_ASSOCIATION_RETAIN)
@@ -364,9 +364,9 @@ public class MonetixBuilderController: UIViewController {
 
         stack.addArrangedSubview(titleLabel)
 
-        if showDescription, let description = product.localizedDescription {
+        if showDescription && !product.localizedDescription.isEmpty {
             let descLabel = UILabel()
-            descLabel.text = description
+            descLabel.text = product.localizedDescription
             descLabel.font = .systemFont(ofSize: 13)
             descLabel.textColor = .secondaryLabel
             descLabel.numberOfLines = 2
