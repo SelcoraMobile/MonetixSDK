@@ -47,7 +47,7 @@ public struct MonetixBuilderView: View {
     public var body: some View {
         ZStack {
             // Background
-            Color(hex: viewConfiguration?.backgroundColor ?? "#FFFFFF")
+            backgroundView
                 .ignoresSafeArea()
 
             // Content
@@ -63,6 +63,45 @@ public struct MonetixBuilderView: View {
             closeButtonOverlay
         }
         .overlay(loadingOverlay)
+    }
+
+    @ViewBuilder
+    private var backgroundView: some View {
+        if let bg = viewConfiguration?.background, bg.type == "image", let urlString = bg.url, let url = URL(string: urlString) {
+            // Background image with optional overlay
+            ZStack {
+                AsyncImage(url: url) { phase in
+                    switch phase {
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                    case .failure(_):
+                        Color(hex: viewConfiguration?.backgroundColor ?? "#FFFFFF")
+                    case .empty:
+                        Color(hex: viewConfiguration?.backgroundColor ?? "#FFFFFF")
+                    @unknown default:
+                        Color(hex: viewConfiguration?.backgroundColor ?? "#FFFFFF")
+                    }
+                }
+
+                // Overlay
+                if let overlayColor = bg.overlayColor {
+                    Color(hex: overlayColor)
+                        .opacity(bg.overlayOpacity ?? 0.4)
+                }
+            }
+        } else if let bg = viewConfiguration?.background, bg.type == "gradient", let colors = bg.gradientColors, colors.count >= 2 {
+            // Gradient background
+            LinearGradient(
+                colors: colors.map { Color(hex: $0) },
+                startPoint: bg.gradientDirection == "horizontal" ? .leading : .top,
+                endPoint: bg.gradientDirection == "horizontal" ? .trailing : .bottom
+            )
+        } else {
+            // Solid color background
+            Color(hex: viewConfiguration?.backgroundColor ?? "#FFFFFF")
+        }
     }
 
     private var contentStack: some View {
@@ -82,6 +121,7 @@ public struct MonetixBuilderView: View {
                 let position: String = closeElement.position ?? "topRight"
                 let delay: TimeInterval = closeElement.showDelay ?? 0
                 let buttonColor: Color = Color(hex: closeElement.style?.color ?? "#000000")
+                let sfSymbol: String = closeElement.systemImage ?? "xmark"
 
                 VStack {
                     HStack {
@@ -90,7 +130,7 @@ public struct MonetixBuilderView: View {
                         }
 
                         Button(action: onClose) {
-                            Image(systemName: "xmark")
+                            Image(systemName: sfSymbol)
                                 .font(.system(size: 16, weight: .medium))
                                 .foregroundColor(buttonColor)
                                 .frame(width: 44, height: 44)
@@ -357,20 +397,29 @@ public struct MonetixBuilderView: View {
         let features: [MonetixFeatureItem] = element.features ?? []
         let paddingInsets: EdgeInsets = edgeInsets(element.style?.padding)
         let marginInsets: EdgeInsets = edgeInsets(element.style?.margin)
+        let textColor: Color = Color(hex: element.style?.color ?? "#000000")
+        let fontSize: CGFloat = CGFloat(element.style?.fontSize ?? 15)
 
-        return VStack(spacing: 12) {
+        return VStack(spacing: 16) {
             ForEach(features, id: \.text) { feature in
                 let iconColorStr: String = feature.iconColor ?? defaultIconColor
-                let iconText: String = systemIcon(for: feature.icon)
                 HStack(spacing: 12) {
-                    Text(iconText)
-                        .font(.system(size: 20))
-                        .foregroundColor(Color(hex: iconColorStr))
-                        .frame(width: 24)
+                    // Use SF Symbol if systemImage is provided, otherwise use emoji/text icon
+                    if let sfSymbol = feature.systemImage {
+                        Image(systemName: sfSymbol)
+                            .font(.system(size: 20))
+                            .foregroundColor(Color(hex: iconColorStr))
+                            .frame(width: 24)
+                    } else {
+                        Text(systemIcon(for: feature.icon))
+                            .font(.system(size: 20))
+                            .foregroundColor(Color(hex: iconColorStr))
+                            .frame(width: 24)
+                    }
 
                     Text(feature.text)
-                        .font(.system(size: 15))
-                        .foregroundColor(.primary)
+                        .font(.system(size: fontSize))
+                        .foregroundColor(textColor)
 
                     Spacer()
                 }

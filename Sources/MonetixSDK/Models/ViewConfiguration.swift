@@ -17,6 +17,9 @@ public struct MonetixViewConfiguration: Codable, Sendable {
     /// Background color (hex string)
     public let backgroundColor: String
 
+    /// Background configuration (image, gradient, etc.)
+    public let background: MonetixBackgroundConfig?
+
     /// Whether to respect safe area at top
     public let safeAreaTop: Bool
 
@@ -32,6 +35,7 @@ public struct MonetixViewConfiguration: Codable, Sendable {
     enum CodingKeys: String, CodingKey {
         case version
         case backgroundColor
+        case background
         case safeAreaTop
         case safeAreaBottom
         case scrollEnabled
@@ -42,6 +46,7 @@ public struct MonetixViewConfiguration: Codable, Sendable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         version = try container.decodeIfPresent(String.self, forKey: .version) ?? "1.0"
         backgroundColor = try container.decodeIfPresent(String.self, forKey: .backgroundColor) ?? "#FFFFFF"
+        background = try container.decodeIfPresent(MonetixBackgroundConfig.self, forKey: .background)
         safeAreaTop = try container.decodeIfPresent(Bool.self, forKey: .safeAreaTop) ?? true
         safeAreaBottom = try container.decodeIfPresent(Bool.self, forKey: .safeAreaBottom) ?? true
         scrollEnabled = try container.decodeIfPresent(Bool.self, forKey: .scrollEnabled) ?? true
@@ -51,6 +56,7 @@ public struct MonetixViewConfiguration: Codable, Sendable {
     public init(
         version: String = "1.0",
         backgroundColor: String = "#FFFFFF",
+        background: MonetixBackgroundConfig? = nil,
         safeAreaTop: Bool = true,
         safeAreaBottom: Bool = true,
         scrollEnabled: Bool = true,
@@ -58,6 +64,7 @@ public struct MonetixViewConfiguration: Codable, Sendable {
     ) {
         self.version = version
         self.backgroundColor = backgroundColor
+        self.background = background
         self.safeAreaTop = safeAreaTop
         self.safeAreaBottom = safeAreaBottom
         self.scrollEnabled = scrollEnabled
@@ -244,6 +251,45 @@ public struct MonetixOffset: Codable, Sendable {
     }
 }
 
+// MARK: - Background Configuration
+
+/// Background configuration for view
+public struct MonetixBackgroundConfig: Codable, Sendable {
+    /// Background type: color, image, or gradient
+    public let type: String
+
+    /// Image URL (for image type)
+    public let url: String?
+
+    /// Overlay color on top of image
+    public let overlayColor: String?
+
+    /// Overlay opacity (0.0 - 1.0)
+    public let overlayOpacity: CGFloat?
+
+    /// Gradient colors (for gradient type)
+    public let gradientColors: [String]?
+
+    /// Gradient direction
+    public let gradientDirection: String?
+
+    public init(
+        type: String = "color",
+        url: String? = nil,
+        overlayColor: String? = nil,
+        overlayOpacity: CGFloat? = nil,
+        gradientColors: [String]? = nil,
+        gradientDirection: String? = nil
+    ) {
+        self.type = type
+        self.url = url
+        self.overlayColor = overlayColor
+        self.overlayOpacity = overlayOpacity
+        self.gradientColors = gradientColors
+        self.gradientDirection = gradientDirection
+    }
+}
+
 // MARK: - Feature Item
 
 /// Feature item for feature list element
@@ -252,10 +298,14 @@ public struct MonetixFeatureItem: Codable, Sendable {
     public let text: String
     public let iconColor: String?
 
-    public init(icon: String, text: String, iconColor: String? = nil) {
+    /// SF Symbol name (e.g., "film.fill", "lock.fill")
+    public let systemImage: String?
+
+    public init(icon: String, text: String, iconColor: String? = nil, systemImage: String? = nil) {
         self.icon = icon
         self.text = text
         self.iconColor = iconColor
+        self.systemImage = systemImage
     }
 }
 
@@ -318,6 +368,9 @@ public struct MonetixPaywallElement: Codable, Sendable {
     public let position: String?
     public let showDelay: TimeInterval?
 
+    /// SF Symbol name (e.g., "xmark", "film.fill")
+    public let systemImage: String?
+
     enum CodingKeys: String, CodingKey {
         case id, type, style
         case text, url, contentMode, placeholder
@@ -329,6 +382,7 @@ public struct MonetixPaywallElement: Codable, Sendable {
         case endTime, format, expiredAction, expiredText
         case badgeText
         case position, showDelay
+        case systemImage
     }
 
     public init(from decoder: Decoder) throws {
@@ -372,6 +426,7 @@ public struct MonetixPaywallElement: Codable, Sendable {
 
         position = try container.decodeIfPresent(String.self, forKey: .position)
         showDelay = try container.decodeIfPresent(TimeInterval.self, forKey: .showDelay)
+        systemImage = try container.decodeIfPresent(String.self, forKey: .systemImage)
     }
 
     public init(
@@ -403,7 +458,8 @@ public struct MonetixPaywallElement: Codable, Sendable {
         expiredText: String? = nil,
         badgeText: String? = nil,
         position: String? = nil,
-        showDelay: TimeInterval? = nil
+        showDelay: TimeInterval? = nil,
+        systemImage: String? = nil
     ) {
         self.id = id
         self.type = type
@@ -434,6 +490,7 @@ public struct MonetixPaywallElement: Codable, Sendable {
         self.badgeText = badgeText
         self.position = position
         self.showDelay = showDelay
+        self.systemImage = systemImage
     }
 }
 
