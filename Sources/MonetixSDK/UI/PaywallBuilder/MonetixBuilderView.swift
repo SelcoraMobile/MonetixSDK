@@ -407,28 +407,34 @@ public struct MonetixBuilderView: View {
     // MARK: - Feature List Element
 
     private func featureListView(_ element: MonetixPaywallElement) -> some View {
-        let defaultIconColor: String = element.iconColor ?? "#34C759"
+        let defaultIconColor: String = element.iconColor ?? "#00D4FF"
         let features: [MonetixFeatureItem] = element.features ?? []
         let paddingInsets: EdgeInsets = edgeInsets(element.style?.padding)
         let marginInsets: EdgeInsets = edgeInsets(element.style?.margin)
-        let textColor: Color = Color(hex: element.style?.color ?? "#000000")
+        let textColor: Color = Color(hex: element.style?.color ?? "#FFFFFF")
         let fontSize: CGFloat = CGFloat(element.style?.fontSize ?? 15)
 
-        return VStack(spacing: 16) {
+        return VStack(spacing: 12) {
             ForEach(features, id: \.text) { feature in
                 let iconColorStr: String = feature.iconColor ?? defaultIconColor
+                let iconBgColor: Color = Color(hex: iconColorStr)
+                
                 HStack(spacing: 12) {
-                    // Use SF Symbol if systemImage is provided, otherwise use emoji/text icon
-                    if let sfSymbol = feature.systemImage {
-                        Image(systemName: sfSymbol)
-                            .font(.system(size: 20))
-                            .foregroundColor(Color(hex: iconColorStr))
-                            .frame(width: 24)
-                    } else {
-                        Text(systemIcon(for: feature.icon))
-                            .font(.system(size: 20))
-                            .foregroundColor(Color(hex: iconColorStr))
-                            .frame(width: 24)
+                    // SF Symbol style: icon in rounded square background
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 6)
+                            .fill(iconBgColor)
+                            .frame(width: 28, height: 28)
+                        
+                        if let sfSymbol = feature.systemImage {
+                            Image(systemName: sfSymbol)
+                                .font(.system(size: 14, weight: .medium))
+                                .foregroundColor(.white)
+                        } else {
+                            Text(feature.icon)
+                                .font(.system(size: 14))
+                                .foregroundColor(.white)
+                        }
                     }
 
                     Text(feature.text)
