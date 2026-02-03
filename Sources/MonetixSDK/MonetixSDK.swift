@@ -55,5 +55,5 @@ import Foundation
 ///
 public struct MonetixSDK {
     /// Current SDK version
-    public static let version = "1.0.0"
+    public static let version = "1.1.5"
 }

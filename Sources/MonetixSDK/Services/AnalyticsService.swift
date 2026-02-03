@@ -43,7 +43,7 @@ internal actor AnalyticsService {
         properties: [String: Any] = [:]
     ) {
         var enrichedProperties = properties
-        enrichedProperties["sdk_version"] = "1.0.0" // TODO: Make dynamic
+        enrichedProperties["sdk_version"] = MonetixSDK.version
         enrichedProperties["platform"] = "ios"
 
         log(.debug, "Tracking event: \(eventType.rawValue)")

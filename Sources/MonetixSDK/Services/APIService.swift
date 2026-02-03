@@ -330,7 +330,7 @@ internal class APIService {
         request.httpMethod = method
         request.setValue(config.apiKey, forHTTPHeaderField: "X-Api-Key")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("MonetixSDK/1.0.0", forHTTPHeaderField: "User-Agent")
+        request.setValue("MonetixSDK/\(MonetixSDK.version)", forHTTPHeaderField: "User-Agent")
         request.setValue("ios", forHTTPHeaderField: "X-Platform")
 
         if let body = body {
