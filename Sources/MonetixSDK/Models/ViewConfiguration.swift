@@ -253,6 +253,19 @@ public struct MonetixOffset: Codable, Sendable {
 
 // MARK: - Background Configuration
 
+/// Gradient overlay configuration for better text readability
+public struct MonetixGradientOverlay: Codable, Sendable {
+    public let enabled: Bool
+    public let startColor: String // Bottom color (e.g., "rgba(0,0,0,0.8)")
+    public let endColor: String   // Top color (e.g., "rgba(0,0,0,0)")
+    
+    public init(enabled: Bool = false, startColor: String = "rgba(0,0,0,0.8)", endColor: String = "rgba(0,0,0,0)") {
+        self.enabled = enabled
+        self.startColor = startColor
+        self.endColor = endColor
+    }
+}
+
 /// Background configuration for view
 public struct MonetixBackgroundConfig: Codable, Sendable {
     /// Background type: color, image, or gradient
@@ -272,6 +285,9 @@ public struct MonetixBackgroundConfig: Codable, Sendable {
 
     /// Gradient direction
     public let gradientDirection: String?
+    
+    /// Bottom-to-top gradient overlay for text readability
+    public let gradientOverlay: MonetixGradientOverlay?
 
     public init(
         type: String = "color",
@@ -279,7 +295,8 @@ public struct MonetixBackgroundConfig: Codable, Sendable {
         overlayColor: String? = nil,
         overlayOpacity: CGFloat? = nil,
         gradientColors: [String]? = nil,
-        gradientDirection: String? = nil
+        gradientDirection: String? = nil,
+        gradientOverlay: MonetixGradientOverlay? = nil
     ) {
         self.type = type
         self.url = url
@@ -287,6 +304,7 @@ public struct MonetixBackgroundConfig: Codable, Sendable {
         self.overlayOpacity = overlayOpacity
         self.gradientColors = gradientColors
         self.gradientDirection = gradientDirection
+        self.gradientOverlay = gradientOverlay
     }
 }
 

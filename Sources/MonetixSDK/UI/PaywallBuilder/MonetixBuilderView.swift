@@ -68,8 +68,9 @@ public struct MonetixBuilderView: View {
     @ViewBuilder
     private var backgroundView: some View {
         if let bg = viewConfiguration?.background, bg.type == "image", let urlString = bg.url, let url = URL(string: urlString) {
-            // Background image with optional overlay
+            // Background image with overlay (ZStack structure)
             ZStack {
+                // Layer 1: Background Image (AspectFill)
                 AsyncImage(url: url) { phase in
                     switch phase {
                     case .success(let image):
@@ -77,16 +78,26 @@ public struct MonetixBuilderView: View {
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                     case .failure(_):
-                        Color(hex: viewConfiguration?.backgroundColor ?? "#FFFFFF")
+                        Color(hex: viewConfiguration?.backgroundColor ?? "#0A0A1A")
                     case .empty:
-                        Color(hex: viewConfiguration?.backgroundColor ?? "#FFFFFF")
+                        Color(hex: viewConfiguration?.backgroundColor ?? "#0A0A1A")
                     @unknown default:
-                        Color(hex: viewConfiguration?.backgroundColor ?? "#FFFFFF")
+                        Color(hex: viewConfiguration?.backgroundColor ?? "#0A0A1A")
                     }
                 }
 
-                // Overlay
-                if let overlayColor = bg.overlayColor {
+                // Layer 2: Gradient Overlay (bottom-to-top for text readability)
+                if let gradientOverlay = bg.gradientOverlay, gradientOverlay.enabled {
+                    LinearGradient(
+                        colors: [
+                            parseRGBAColor(gradientOverlay.startColor),
+                            parseRGBAColor(gradientOverlay.endColor)
+                        ],
+                        startPoint: .bottom,
+                        endPoint: .top
+                    )
+                } else if let overlayColor = bg.overlayColor {
+                    // Legacy simple overlay
                     Color(hex: overlayColor)
                         .opacity(bg.overlayOpacity ?? 0.4)
                 }
@@ -101,8 +112,23 @@ public struct MonetixBuilderView: View {
             )
         } else {
             // Solid color background
-            Color(hex: viewConfiguration?.backgroundColor ?? "#FFFFFF")
+            Color(hex: viewConfiguration?.backgroundColor ?? "#0A0A1A")
         }
+    }
+    
+    /// Parse rgba() color string to SwiftUI Color
+    private func parseRGBAColor(_ rgba: String) -> Color {
+        // Parse "rgba(0,0,0,0.8)" format
+        let pattern = #"rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*([\d.]+)\s*\)"#
+        if let regex = try? NSRegularExpression(pattern: pattern),
+           let match = regex.firstMatch(in: rgba, range: NSRange(rgba.startIndex..., in: rgba)) {
+            let r = Double((rgba as NSString).substring(with: match.range(at: 1))) ?? 0
+            let g = Double((rgba as NSString).substring(with: match.range(at: 2))) ?? 0
+            let b = Double((rgba as NSString).substring(with: match.range(at: 3))) ?? 0
+            let a = Double((rgba as NSString).substring(with: match.range(at: 4))) ?? 1
+            return Color(red: r/255, green: g/255, blue: b/255, opacity: a)
+        }
+        return Color.clear
     }
 
     private var contentStack: some View {
@@ -119,9 +145,9 @@ public struct MonetixBuilderView: View {
 
         return Group {
             if let closeElement = closeElement {
-                let position: String = closeElement.position ?? "topRight"
+                let position: String = closeElement.position ?? "topLeft"
                 let delay: TimeInterval = closeElement.showDelay ?? 0
-                let buttonColor: Color = Color(hex: closeElement.style?.color ?? "#000000")
+                let buttonColor: Color = Color(hex: closeElement.style?.color ?? "#CCCCCC") // Açık Gri
                 let sfSymbol: String = closeElement.systemImage ?? "xmark"
 
                 VStack {
@@ -131,10 +157,10 @@ public struct MonetixBuilderView: View {
                         }
 
                         Button(action: onClose) {
+                            // 16pt, no background, just icon
                             Image(systemName: sfSymbol)
-                                .font(.system(size: 16, weight: .medium))
+                                .font(.system(size: 16, weight: .regular))
                                 .foregroundColor(buttonColor)
-                                .frame(width: 44, height: 44)
                         }
                         .opacity(showCloseButton ? 1 : 0)
 
@@ -142,9 +168,10 @@ public struct MonetixBuilderView: View {
                             Spacer()
                         }
                     }
+                    .padding(.horizontal, 16)
+                    .padding(.top, 8)
                     Spacer()
                 }
-                .padding(8)
                 .onAppear {
                     if delay > 0 {
                         DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
@@ -376,29 +403,38 @@ public struct MonetixBuilderView: View {
 
     private func purchaseButtonView(_ element: MonetixPaywallElement) -> some View {
         let buttonText: String = element.text ?? "Continue"
-        let fontSize: CGFloat = CGFloat(element.style?.fontSize ?? 17)
-        let fontWeightStr: String = element.style?.fontWeight ?? "semibold"
+        let fontSize: CGFloat = CGFloat(element.style?.fontSize ?? 18) // 18pt Bold
+        let fontWeightStr: String = element.style?.fontWeight ?? "bold"
         let fontWeightValue: Font.Weight = fontWeight(fontWeightStr)
-        let textColor: Color = Color(hex: element.style?.textColor ?? "#FFFFFF")
-        let bgColor: Color = Color(hex: element.style?.backgroundColor ?? "#007AFF")
-        let heightVal: CGFloat = heightValue(element.style?.height) ?? 50
-        let cornerRadius: CGFloat = element.style?.cornerRadius ?? 12
+        let textColor: Color = Color(hex: element.style?.textColor ?? "#000000") // Black text
+        let bgColor: Color = Color(hex: element.style?.backgroundColor ?? "#FFFFFF") // White background
+        let heightVal: CGFloat = heightValue(element.style?.height) ?? 56 // 56pt height
+        let cornerRadius: CGFloat = element.style?.cornerRadius ?? 28 // Capsule (height/2)
         let paddingInsets: EdgeInsets = edgeInsets(element.style?.padding)
         let marginInsets: EdgeInsets = edgeInsets(element.style?.margin)
         let productId: String? = element.productId
+        let hasArrow: Bool = element.systemImage == "arrow.right"
 
         return Button(action: {
             Task {
                 await performPurchase(productId: productId)
             }
         }) {
-            Text(buttonText)
-                .font(.system(size: fontSize, weight: fontWeightValue))
-                .foregroundColor(textColor)
-                .frame(maxWidth: .infinity)
-                .frame(height: heightVal)
-                .background(bgColor)
-                .cornerRadius(cornerRadius)
+            HStack(spacing: 8) {
+                Text(buttonText)
+                    .font(.system(size: fontSize, weight: fontWeightValue))
+                    .foregroundColor(textColor)
+                
+                if hasArrow {
+                    Image(systemName: "arrow.right")
+                        .font(.system(size: fontSize, weight: fontWeightValue))
+                        .foregroundColor(textColor)
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: heightVal)
+            .background(bgColor)
+            .cornerRadius(cornerRadius)
         }
         .padding(paddingInsets)
         .padding(marginInsets)
@@ -407,43 +443,43 @@ public struct MonetixBuilderView: View {
     // MARK: - Feature List Element
 
     private func featureListView(_ element: MonetixPaywallElement) -> some View {
-        let defaultIconColor: String = element.iconColor ?? "#00D4FF"
+        let defaultIconColor: String = element.iconColor ?? "#FFFFFF"
         let features: [MonetixFeatureItem] = element.features ?? []
         let paddingInsets: EdgeInsets = edgeInsets(element.style?.padding)
         let marginInsets: EdgeInsets = edgeInsets(element.style?.margin)
         let textColor: Color = Color(hex: element.style?.color ?? "#FFFFFF")
-        let fontSize: CGFloat = CGFloat(element.style?.fontSize ?? 15)
+        let fontSize: CGFloat = CGFloat(element.style?.fontSize ?? 17) // 17pt Medium
 
-        return VStack(spacing: 12) {
-            ForEach(features, id: \.text) { feature in
-                let iconColorStr: String = feature.iconColor ?? defaultIconColor
-                let iconBgColor: Color = Color(hex: iconColorStr)
-                
-                HStack(spacing: 12) {
-                    // SF Symbol style: icon in rounded square background
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 6)
-                            .fill(iconBgColor)
-                            .frame(width: 28, height: 28)
-                        
+        // Feature list: centered container with left-aligned content
+        return HStack {
+            Spacer()
+            VStack(alignment: .leading, spacing: 14) { // 14pt spacing between rows
+                ForEach(features, id: \.text) { feature in
+                    let iconColorStr: String = feature.iconColor ?? defaultIconColor
+                    let iconColor: Color = Color(hex: iconColorStr)
+                    
+                    HStack(spacing: 12) { // 12pt spacing between icon and text
+                        // Icon - 18pt, no background, just icon
                         if let sfSymbol = feature.systemImage {
                             Image(systemName: sfSymbol)
-                                .font(.system(size: 14, weight: .medium))
-                                .foregroundColor(.white)
+                                .font(.system(size: 18, weight: .medium))
+                                .foregroundColor(iconColor)
+                                .frame(width: 24)
                         } else {
                             Text(feature.icon)
-                                .font(.system(size: 14))
-                                .foregroundColor(.white)
+                                .font(.system(size: 18))
+                                .foregroundColor(iconColor)
+                                .frame(width: 24)
                         }
+
+                        // Text - 17pt Medium
+                        Text(feature.text)
+                            .font(.system(size: fontSize, weight: .medium))
+                            .foregroundColor(textColor)
                     }
-
-                    Text(feature.text)
-                        .font(.system(size: fontSize))
-                        .foregroundColor(textColor)
-
-                    Spacer()
                 }
             }
+            Spacer()
         }
         .padding(paddingInsets)
         .padding(marginInsets)
