@@ -93,10 +93,11 @@ public struct MonetixBuilderView: View {
             }
         } else if let bg = viewConfiguration?.background, bg.type == "gradient", let colors = bg.gradientColors, colors.count >= 2 {
             // Gradient background
+            let (startPoint, endPoint) = gradientPoints(for: bg.gradientDirection)
             LinearGradient(
                 colors: colors.map { Color(hex: $0) },
-                startPoint: bg.gradientDirection == "horizontal" ? .leading : .top,
-                endPoint: bg.gradientDirection == "horizontal" ? .trailing : .bottom
+                startPoint: startPoint,
+                endPoint: endPoint
             )
         } else {
             // Solid color background
@@ -661,6 +662,21 @@ public struct MonetixBuilderView: View {
             return "✓"
         }
         return iconName
+    }
+
+    private func gradientPoints(for direction: String?) -> (UnitPoint, UnitPoint) {
+        switch direction?.lowercased() {
+        case "horizontal":
+            return (.leading, .trailing)
+        case "diagonal":
+            return (.topLeading, .bottomTrailing)
+        case "diagonal-reverse", "diagonalreverse":
+            return (.topTrailing, .bottomLeading)
+        case "vertical":
+            return (.top, .bottom)
+        default:
+            return (.top, .bottom)
+        }
     }
 }
 
