@@ -502,6 +502,7 @@ struct PaywallResponse: Codable {
         let revision: Int
         let locale: String
         let hasViewConfiguration: Bool
+        let viewConfiguration: MonetixViewConfiguration?
         let vendorProductIds: [String]
         let products: [ProductData]
         let remoteConfig: RemoteConfigData?
@@ -516,6 +517,7 @@ struct PaywallResponse: Codable {
             case revision
             case locale
             case hasViewConfiguration = "has_view_configuration"
+            case viewConfiguration = "view_configuration"
             case vendorProductIds = "vendor_product_ids"
             case products
             case remoteConfig = "remote_config"
@@ -572,7 +574,8 @@ struct PaywallResponse: Codable {
             hasViewConfiguration: paywall.hasViewConfiguration,
             vendorProductIds: paywall.vendorProductIds,
             products: [],  // Products will be fetched from StoreKit
-            remoteConfig: remoteConfig
+            remoteConfig: remoteConfig,
+            viewConfiguration: paywall.viewConfiguration
         )
     }
 }
