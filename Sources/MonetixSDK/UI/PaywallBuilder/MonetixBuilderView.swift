@@ -229,6 +229,7 @@ public struct MonetixBuilderView: View {
 
     private func imageView(_ element: MonetixPaywallElement) -> some View {
         let cornerRadius: CGFloat = element.style?.cornerRadius ?? 0
+        let widthVal: CGFloat? = widthValue(element.style?.width)
         let heightVal: CGFloat? = heightValue(element.style?.height)
         let paddingInsets: EdgeInsets = edgeInsets(element.style?.padding)
         let marginInsets: EdgeInsets = edgeInsets(element.style?.margin)
@@ -236,25 +237,37 @@ public struct MonetixBuilderView: View {
 
         return Group {
             if let urlString = element.url, let url = URL(string: urlString) {
-                AsyncImage(url: url) { phase in
-                    switch phase {
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: mode)
-                    case .failure:
-                        Color.gray.opacity(0.3)
-                    case .empty:
-                        ProgressView()
-                    @unknown default:
-                        EmptyView()
+                HStack {
+                    Spacer()
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: mode)
+                        case .failure:
+                            Color.gray.opacity(0.3)
+                        case .empty:
+                            ProgressView()
+                        @unknown default:
+                            EmptyView()
+                        }
                     }
+                    .frame(width: widthVal, height: heightVal)
+                    .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+                    Spacer()
                 }
-                .frame(height: heightVal)
-                .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
                 .padding(paddingInsets)
                 .padding(marginInsets)
             }
+        }
+    }
+    
+    private func widthValue(_ dimension: MonetixDimension?) -> CGFloat? {
+        guard let dimension = dimension else { return nil }
+        switch dimension {
+        case .fixed(let value): return value
+        case .full, .auto: return nil
         }
     }
 
