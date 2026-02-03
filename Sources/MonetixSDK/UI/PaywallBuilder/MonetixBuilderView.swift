@@ -443,38 +443,42 @@ public struct MonetixBuilderView: View {
     // MARK: - Feature List Element
 
     private func featureListView(_ element: MonetixPaywallElement) -> some View {
-        let defaultIconColor: String = element.iconColor ?? "#FFFFFF"
+        let defaultIconBgColor: String = element.iconColor ?? "#00D4FF" // Turkuaz arka plan
         let features: [MonetixFeatureItem] = element.features ?? []
         let paddingInsets: EdgeInsets = edgeInsets(element.style?.padding)
         let marginInsets: EdgeInsets = edgeInsets(element.style?.margin)
         let textColor: Color = Color(hex: element.style?.color ?? "#FFFFFF")
-        let fontSize: CGFloat = CGFloat(element.style?.fontSize ?? 17) // 17pt Medium
+        let fontSize: CGFloat = CGFloat(element.style?.fontSize ?? 16) // 16pt
 
         // Feature list: centered container with left-aligned content
         return HStack {
             Spacer()
-            VStack(alignment: .leading, spacing: 14) { // 14pt spacing between rows
+            VStack(alignment: .leading, spacing: 12) { // 12pt spacing between rows
                 ForEach(features, id: \.text) { feature in
-                    let iconColorStr: String = feature.iconColor ?? defaultIconColor
-                    let iconColor: Color = Color(hex: iconColorStr)
+                    let iconBgColorStr: String = feature.iconColor ?? defaultIconBgColor
+                    let iconBgColor: Color = Color(hex: iconBgColorStr)
                     
                     HStack(spacing: 12) { // 12pt spacing between icon and text
-                        // Icon - 18pt, no background, just icon
-                        if let sfSymbol = feature.systemImage {
-                            Image(systemName: sfSymbol)
-                                .font(.system(size: 18, weight: .medium))
-                                .foregroundColor(iconColor)
-                                .frame(width: 24)
-                        } else {
-                            Text(feature.icon)
-                                .font(.system(size: 18))
-                                .foregroundColor(iconColor)
-                                .frame(width: 24)
+                        // Icon with rounded square background
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 6)
+                                .fill(iconBgColor)
+                                .frame(width: 26, height: 26)
+                            
+                            if let sfSymbol = feature.systemImage {
+                                Image(systemName: sfSymbol)
+                                    .font(.system(size: 13, weight: .medium))
+                                    .foregroundColor(.white)
+                            } else {
+                                Text(feature.icon)
+                                    .font(.system(size: 13))
+                                    .foregroundColor(.white)
+                            }
                         }
 
-                        // Text - 17pt Medium
+                        // Text - 16pt
                         Text(feature.text)
-                            .font(.system(size: fontSize, weight: .medium))
+                            .font(.system(size: fontSize, weight: .regular))
                             .foregroundColor(textColor)
                     }
                 }
