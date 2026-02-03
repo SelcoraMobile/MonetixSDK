@@ -362,6 +362,10 @@ public struct MonetixPaywallElement: Codable, Sendable {
     // MARK: - Feature List Properties
     public let features: [MonetixFeatureItem]?
     public let iconColor: String?
+    public let iconSize: CGFloat?
+    public let iconSpacing: CGFloat?
+    public let iconBackground: Bool?
+    public let alignment: String?
 
     // MARK: - Container/Stack Properties
     public let children: [MonetixPaywallElement]?
@@ -394,7 +398,7 @@ public struct MonetixPaywallElement: Codable, Sendable {
         case text, url, contentMode, placeholder
         case action, actionUrl
         case productId, layout, showBadge, showDescription, showPrice
-        case features, iconColor
+        case features, iconColor, iconSize, iconSpacing, iconBackground, alignment
         case children, spacing, axis
         case size, flexible, thickness
         case endTime, format, expiredAction, expiredText
@@ -426,6 +430,10 @@ public struct MonetixPaywallElement: Codable, Sendable {
 
         features = try container.decodeIfPresent([MonetixFeatureItem].self, forKey: .features)
         iconColor = try container.decodeIfPresent(String.self, forKey: .iconColor)
+        iconSize = try container.decodeIfPresent(CGFloat.self, forKey: .iconSize)
+        iconSpacing = try container.decodeIfPresent(CGFloat.self, forKey: .iconSpacing)
+        iconBackground = try container.decodeIfPresent(Bool.self, forKey: .iconBackground)
+        alignment = try container.decodeIfPresent(String.self, forKey: .alignment)
 
         children = try container.decodeIfPresent([MonetixPaywallElement].self, forKey: .children)
         spacing = try container.decodeIfPresent(CGFloat.self, forKey: .spacing)
@@ -464,6 +472,10 @@ public struct MonetixPaywallElement: Codable, Sendable {
         showPrice: Bool? = nil,
         features: [MonetixFeatureItem]? = nil,
         iconColor: String? = nil,
+        iconSize: CGFloat? = nil,
+        iconSpacing: CGFloat? = nil,
+        iconBackground: Bool? = nil,
+        alignment: String? = nil,
         children: [MonetixPaywallElement]? = nil,
         spacing: CGFloat? = nil,
         axis: String? = nil,
@@ -495,6 +507,10 @@ public struct MonetixPaywallElement: Codable, Sendable {
         self.showPrice = showPrice
         self.features = features
         self.iconColor = iconColor
+        self.iconSize = iconSize
+        self.iconSpacing = iconSpacing
+        self.iconBackground = iconBackground
+        self.alignment = alignment
         self.children = children
         self.spacing = spacing
         self.axis = axis
